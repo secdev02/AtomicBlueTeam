@@ -1,0 +1,37 @@
+### Create a login request for user that does not exist. Generates a 4768 Event.
+
+```
+# PowerShell script to generate Event ID 4768 with result code 0x6
+# This script attempts to authenticate with a non-existent username 
+# which will generate the desired event in the Security log
+
+# Define a username that doesn't exist in your domain
+# Using a random GUID as part of the username to ensure it doesn't exist
+$nonExistentUser = "nonexistent_user_" + [guid]::NewGuid().ToString().Substring(0, 8)
+$domain = $env:USERDOMAIN
+$password = ConvertTo-SecureString "AnyPasswordHere" -AsPlainText -Force
+
+Write-Host "Attempting to authenticate with non-existent username: $nonExistentUser@$domain"
+Write-Host "This should generate Event ID 4768 with result code 0x6 in the Security log"
+
+try {
+    # Attempt to create a credential object with the non-existent username
+    $credential = New-Object System.Management.Automation.PSCredential("$domain\$nonExistentUser", $password)
+    
+    # Try to authenticate using the credential
+    # Using New-PSDrive as it requires authentication but won't cause harm
+    New-PSDrive -Name Z -PSProvider FileSystem -Root "\\$env:COMPUTERNAME\C$" -Credential $credential -ErrorAction Stop
+    
+    Write-Host "Authentication attempt completed. This should have failed and generated the event."
+} 
+catch {
+    Write-Host "Expected authentication failure occurred: $_"
+    Write-Host "The Event ID 4768 with result code 0x6 should now be in the Security log"
+}
+
+Write-Host "`nYou can now run your search script to find this event."
+Write-Host "Note: It may take a few moments for the event to appear in the logs."
+```
+
+`https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4768`
+
