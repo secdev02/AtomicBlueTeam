@@ -1,2 +1,2 @@
 # AtomicBlueTeam
-Tests to create artifacts, events, and telemtry
+Tests to create artifacts, events, and telemetry
