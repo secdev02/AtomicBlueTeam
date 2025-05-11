@@ -1,3 +1,17 @@
+/*
+Attach Debugging Command 
+
+$Event = Get-WinEvent -FilterHashtable @{LogName="Microsoft-Windows-PowerShell/Operational"; ID=4104} -MaxEvents 1; $Commands = @("Invoke-Mimikatz", "Invoke-Expression", "IEX", "DownloadString", "DownloadFile"); if ($Commands | Where-Object { $Event.Message -match $_ }) { Add-Content -Path "C:\Logs\suspicious_commands.log" -Value "$(Get-Date) - Alert: Suspicious command detected in Event 4104. Command: $($Matches[0])" }
+
+# Print Where that cmdlet lives.
+
+Get-Command -Name Disable-ScheduledTask | Select-Object -Property ModuleName
+
+
+
+*/
+
+
 using System;
 using System.Diagnostics;
 using System.IO;
