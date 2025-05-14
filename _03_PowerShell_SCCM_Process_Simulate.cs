@@ -68,7 +68,7 @@ class CCMexec
             Invoke-Expression $formattedCommand
             
             # Enable ScriptBlock logging via registry
-            $basePath = 'HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging'
+            $basePath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging'
             if (-not (Test-Path $basePath)) {
                 New-Item -Path $basePath -Force | Out-Null
             }
